@@ -96,7 +96,7 @@ export const SignIn: React.FC<SignInProps> = ({ onLogin }) => {
                     ))}
                  </div>
                  <div className="flex flex-col">
-                   <span className="text-xs font-bold text-[#2E3340]">CUSTOM MADE FOR GO GREEN</span>
+                   <span className="text-xs font-bold text-[#2E3340]"> MADE FOR GO GREEN</span>
                   <span className="text-[10px] text-[#2E3340]/60"> ISO 20001 CERTIFIED </span>
                  </div>
               </div>
