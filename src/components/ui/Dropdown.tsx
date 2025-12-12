@@ -1,6 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MoreVertical } from 'lucide-react';
-import type { DropdownItem, DropdownProps } from './types';
+
+export interface DropdownItem {
+  label: string;
+  value: string;
+  onClick: () => void;
+  className?: string;
+  icon?: React.ComponentType;
+}
+
+export type DropdownProps = {
+  items: DropdownItem[];
+};
 
 export const Dropdown: React.FC<DropdownProps> = ({ items }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +42,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ items }) => {
       {isOpen && (
         <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-100 origin-top-right">
           <div className="py-1.5">
-            {items.map((item, index) => (
+            {items.map((item: DropdownItem, index: number) => (
               <button
                 key={index}
                 onClick={(e) => {
@@ -41,7 +52,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ items }) => {
                 }}
                 className={`w-full text-left px-4 py-2.5 text-sm flex items-center hover:bg-gray-50 transition-colors ${item.className || 'text-secondary'}`}
               >
-                {item.icon && <item.icon className="w-4 h-4 mr-3 opacity-70" />}
+                {item.icon && React.createElement(item.icon, { className: "w-4 h-4 mr-3 opacity-70" } as React.SVGProps<SVGSVGElement>)}
                 {item.label}
               </button>
             ))}
