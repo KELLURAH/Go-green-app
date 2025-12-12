@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #4CAF50;
+  --primary-hover: #45A049;
+  --secondary: #2E3340;
+  --secondary-hover: #252A34;
+  --background: #F5F0E1;
+  --surface-subtle: #E0E0E0;
+  --accent-green: #4CAF50;
+}
+
+body {
+  @apply bg-background text-secondary;
+}
+
+.card {
+  @apply bg-surface shadow-sm rounded-xl;
+  background-color: #FFFFFF;
+  border: 1px solid var(--surface-subtle);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input {
+  @apply bg-surface-subtle border border-border rounded-lg px-3 py-2;
+  border: 1px solid var(--surface-subtle);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+.bg-primary-hover:hover {
+  background-color: var(--primary-hover);
+}
+.bg-secondary {
+  background-color: var(--secondary);
+}
+.bg-secondary-hover:hover {
+  background-color: var(--secondary-hover);
+}
+.bg-background {
+  background-color: var(--background);
+}
+.bg-surface-subtle {
+  background-color: var(--surface-subtle);
+}
+.bg-accent-green {
+  background-color: var(--accent-green);
+}
+.text-secondary {
+  color: var(--secondary);
+}
+.text-white {
+  color: #FFFFFF;
+}
+
+/* Global scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4CAF50; /* primary green */
+  border-radius: 9999px;
+}
+
+/* Optional: on hover make it a bit darker */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #45A049; /* darker green */
+}
