@@ -46,6 +46,8 @@ const PlaceholderPage: React.FC<{ title: string }> = ({ title }) => (
   </div>
 );
 
+type DrawerType = 'notifications' | 'notes' | 'reminders' | null;
+
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -58,6 +60,9 @@ export default function App() {
 
   // Shared state for adding a visitor from Dashboard
   const [shouldOpenAddVisitorModal, setShouldOpenAddVisitorModal] = useState(false);
+
+  // Shared drawer state for FloatingActions
+  const [activeDrawer, setActiveDrawer] = useState<DrawerType>(null);
 
   const handleTriggerAddVisitor = () => {
     if (portalMode === 'receptionist') {
@@ -297,7 +302,10 @@ export default function App() {
         title={activeTab.replace('staff-', '').replace(/-/g, ' ')}
       >
         {renderStaffContent()}
-        <FloatingActions />
+        <FloatingActions 
+          activeDrawer={activeDrawer}
+          onSetActiveDrawer={setActiveDrawer}
+        />
       </StaffLayout>
     );
   }
@@ -345,10 +353,14 @@ export default function App() {
                <span className="text-xs text-gray-400 border border-gray-200 rounded px-1.5 py-0.5 ml-2">⌘K</span>
              </div>
 
-             <button className="relative p-2 text-gray-500 hover:bg-white rounded-xl transition-colors">
-               <Bell className="w-5 h-5" />
-               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-background"></span>
-             </button>
+             {/* Floating Actions on Mobile/Tablet */}
+             <div className="lg:hidden">
+               <FloatingActions 
+                 variant="header" 
+                 activeDrawer={activeDrawer}
+                 onSetActiveDrawer={setActiveDrawer}
+               />
+             </div>
           </div>
         </header>
 
@@ -360,7 +372,10 @@ export default function App() {
         </main>
 
         {/* Floating Actions Overlay */}
-        <FloatingActions />
+        <FloatingActions 
+          activeDrawer={activeDrawer}
+          onSetActiveDrawer={setActiveDrawer}
+        />
       </div>
     </div>
   );

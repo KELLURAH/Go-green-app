@@ -8,8 +8,28 @@ import { RemindersPanel } from '../panels/RemindersPanel';
 
 type DrawerType = 'notifications' | 'notes' | 'reminders' | null;
 
-export const FloatingActions: React.FC = () => {
-  const [activeDrawer, setActiveDrawer] = useState<DrawerType>(null);
+interface FloatingActionsProps {
+  variant?: 'floating' | 'header';
+  activeDrawer?: DrawerType;
+  onSetActiveDrawer?: (drawer: DrawerType) => void;
+}
+
+export const FloatingActions: React.FC<FloatingActionsProps> = ({ 
+  variant = 'floating',
+  activeDrawer: externalActiveDrawer,
+  onSetActiveDrawer
+}) => {
+  // Use external state if provided, otherwise use internal state
+  const [internalActiveDrawer, setInternalActiveDrawer] = useState<DrawerType>(null);
+  const activeDrawer = externalActiveDrawer !== undefined ? externalActiveDrawer : internalActiveDrawer;
+  
+  const setActiveDrawer = (drawer: DrawerType) => {
+    if (onSetActiveDrawer) {
+      onSetActiveDrawer(drawer);
+    } else {
+      setInternalActiveDrawer(drawer);
+    }
+  };
 
   const toggleDrawer = (type: DrawerType) => {
     setActiveDrawer(activeDrawer === type ? null : type);
@@ -26,62 +46,77 @@ export const FloatingActions: React.FC = () => {
     }
   };
 
+  const fabContainerClass = variant === 'header' 
+    ? 'flex items-center gap-2' 
+    : 'hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-30 flex-col gap-4';
+
+  const fabButtonClass = (active: boolean) => variant === 'header'
+    ? `w-10 h-10 rounded-lg shadow-md flex items-center justify-center transition-all duration-300 ${
+        active ? 'bg-primary text-white scale-105' : 'bg-gray-100 text-secondary hover:bg-gray-200 hover:scale-105'
+      }`
+    : `w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+        active ? 'bg-primary text-white scale-110' : 'bg-secondary text-white hover:bg-secondary-hover hover:scale-110'
+      }`;
+
+  const fabIconClass = variant === 'header' ? 'w-4 h-4' : 'w-5 h-5';
+
   return (
     <>
       {/* Floating Action Buttons */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-4">
+      <div className={fabContainerClass}>
         
         {/* Notifications FAB */}
-        <div className="relative group">
+        <div className={variant === 'header' ? 'relative' : 'relative group'}>
           <button 
             onClick={() => toggleDrawer('notifications')}
-            className={`
-              w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300
-              ${activeDrawer === 'notifications' ? 'bg-primary text-white scale-110' : 'bg-secondary text-white hover:bg-secondary-hover hover:scale-110'}
-            `}
+            className={fabButtonClass(activeDrawer === 'notifications')}
             title="Notifications"
           >
-            <Bell className="w-5 h-5" />
+            <Bell className={fabIconClass} />
           </button>
-          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-secondary text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            Notifications
-          </span>
-          {/* Unread indicator dot */}
-          <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 border-2 border-background rounded-full"></span>
+          {variant === 'floating' && (
+            <>
+              <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-secondary text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                Notifications
+              </span>
+              <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 border-2 border-background rounded-full"></span>
+            </>
+          )}
+          {variant === 'header' && (
+            <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 border-2 border-background rounded-full"></span>
+          )}
         </div>
 
         {/* Notes FAB */}
-        <div className="relative group">
+        <div className={variant === 'header' ? 'relative' : 'relative group'}>
           <button 
             onClick={() => toggleDrawer('notes')}
-            className={`
-              w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300
-              ${activeDrawer === 'notes' ? 'bg-primary text-white scale-110' : 'bg-secondary text-white hover:bg-secondary-hover hover:scale-110'}
-            `}
+            className={fabButtonClass(activeDrawer === 'notes')}
             title="Notes"
           >
-            <StickyNote className="w-5 h-5" />
+            <StickyNote className={fabIconClass} />
           </button>
-          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-secondary text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            Quick Notes
-          </span>
+          {variant === 'floating' && (
+            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-secondary text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+              Quick Notes
+            </span>
+          )}
         </div>
 
         {/* Reminders FAB */}
-        <div className="relative group">
+        <div className={variant === 'header' ? 'relative' : 'relative group'}>
           <button 
             onClick={() => toggleDrawer('reminders')}
-            className={`
-              w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300
-              ${activeDrawer === 'reminders' ? 'bg-primary text-white scale-110' : 'bg-secondary text-white hover:bg-secondary-hover hover:scale-110'}
-            `}
+            className={fabButtonClass(activeDrawer === 'reminders')}
             title="Reminders"
           >
-            <Clock className="w-5 h-5" />
+            <Clock className={fabIconClass} />
           </button>
-          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-secondary text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            Reminders
-          </span>
+          {variant === 'floating' && (
+            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-secondary text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+              Reminders
+            </span>
+          )}
         </div>
       </div>
 

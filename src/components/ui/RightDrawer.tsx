@@ -28,7 +28,7 @@ export const RightDrawer: React.FC<RightDrawerProps> = ({ isOpen, onClose, title
       {/* Drawer */}
       <div 
         className={`
-          fixed inset-y-0 right-0 z-50 w-full sm:w-[450px] bg-background shadow-2xl border-l border-primary/20
+          fixed inset-y-0 right-0 z-50 w-full md:w-[450px] bg-background shadow-2xl border-l border-primary/20
           transform transition-transform duration-300 ease-in-out flex flex-col
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
