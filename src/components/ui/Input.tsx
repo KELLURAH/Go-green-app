@@ -3,10 +3,11 @@ import React from 'react';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  helperText?: string;
   icon?: React.ElementType;
 }
 
-export const Input: React.FC<InputProps> = ({ label, error, icon: Icon, className = '', ...props }) => {
+export const Input: React.FC<InputProps> = ({ label, error, helperText, icon: Icon, className = '', ...props }) => {
   return (
     <div className="w-full">
       {label && <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">{label}</label>}
@@ -30,6 +31,7 @@ export const Input: React.FC<InputProps> = ({ label, error, icon: Icon, classNam
         />
       </div>
       {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {helperText && <p className="mt-1 text-xs text-gray-500">{helperText}</p>}
     </div>
   );
 };

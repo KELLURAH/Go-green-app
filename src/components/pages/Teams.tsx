@@ -4,6 +4,8 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Badge } from '../ui/Badge';
+import { Modal } from '../ui/Modal';
+import { EditStaff } from './EditStaff';
 import { Search, Filter, Download, MoreHorizontal, ChevronLeft, ChevronRight, ArrowUpDown, Trash2, Edit2 } from 'lucide-react';
 import type { User } from '../../types';
 
@@ -22,6 +24,7 @@ interface TeamsProps {
 
 export const Teams: React.FC<TeamsProps> = ({ readOnly = false }) => {
   const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
+  const [isCreateStaffOpen, setIsCreateStaffOpen] = useState(false);
 
   const toggleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (readOnly) return;
@@ -49,7 +52,7 @@ export const Teams: React.FC<TeamsProps> = ({ readOnly = false }) => {
         </div>
         <div className="flex space-x-3">
           <Button variant="outline" leftIcon={Download}>Export</Button>
-          {!readOnly && <Button leftIcon={Filter}>Add User</Button>}
+          {!readOnly && <Button leftIcon={Filter} onClick={() => setIsCreateStaffOpen(true)}>Add User</Button>}
         </div>
       </div>
 
@@ -163,6 +166,21 @@ export const Teams: React.FC<TeamsProps> = ({ readOnly = false }) => {
           </div>
         </div>
       </Card>
+
+      {/* Create Staff Modal */}
+      <Modal
+        isOpen={isCreateStaffOpen}
+        onClose={() => setIsCreateStaffOpen(false)}
+        title="Create New Staff"
+      >
+        <EditStaff 
+          onClose={() => setIsCreateStaffOpen(false)}
+          onSubmit={(data) => {
+            console.log('New staff created:', data);
+            setIsCreateStaffOpen(false);
+          }}
+        />
+      </Modal>
     </div>
   );
 };

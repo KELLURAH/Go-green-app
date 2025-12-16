@@ -6,6 +6,7 @@ import { SignIn } from './components/pages/SignIn';
 import { Dashboard } from './components/pages/Dashboard';
 import { DesignSystem } from './components/pages/DesignSystem';
 import { Teams } from './components/pages/Teams';
+import { EditStaff } from './components/pages/EditStaff';
 import { VisitorManagement } from './components/pages/VisitorManagement';
 import { VisitorDetails } from './components/pages/VisitorDetails';
 import { DeliveriesList } from './components/pages/DeliveriesList';
@@ -156,7 +157,10 @@ export default function App() {
       case 'staff-list':
         return <Teams />;
       case 'staff-edit':
-        return <PlaceholderPage title="Add / Edit Staff" />;
+        return <EditStaff onSubmit={(data) => {
+          console.log('Staff created/updated:', data);
+          setActiveTab('staff-list');
+        }} />;
 
       // Deliveries Routes
       case 'deliveries-list':
