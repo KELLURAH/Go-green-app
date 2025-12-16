@@ -30,6 +30,7 @@ import { MyVisitors } from './components/pages/staff/MyVisitors';
 import { MyDeliveries } from './components/pages/staff/MyDeliveries';
 import { StaffPreRegistrations } from './components/pages/staff/StaffPreRegistrations';
 import { StaffSettings } from './components/pages/staff/StaffSettings';
+import { StaffProfile } from './components/pages/staff/StaffProfile';
 // Reception Components
 import { KioskMonitoring } from './components/pages/reception/KioskMonitoring';
 import { ReceptionProfile } from './components/pages/reception/ReceptionProfile';
@@ -81,7 +82,7 @@ export default function App() {
   const handleLogout = () => {
     setIsAuthenticated(false);
     // Reset to admin mode on logout
-    setPortalMode('admin'); 
+    setPortalMode('admin');
     setActiveTab('dashboard');
   };
 
@@ -114,9 +115,9 @@ export default function App() {
     return (
       <KioskLayout onExit={() => {
         if (portalMode === 'receptionist') {
-            setActiveTab('reception-dashboard');
+          setActiveTab('reception-dashboard');
         } else {
-            setActiveTab('dashboard');
+          setActiveTab('dashboard');
         }
         setKioskState('welcome');
       }}>
@@ -126,10 +127,10 @@ export default function App() {
             setKioskState('flow');
           }} />
         ) : (
-          <CheckInFlow 
+          <CheckInFlow
             flowType={kioskFlowType}
-            onComplete={() => setKioskState('welcome')} 
-            onCancel={() => setKioskState('welcome')} 
+            onComplete={() => setKioskState('welcome')}
+            onCancel={() => setKioskState('welcome')}
           />
         )}
       </KioskLayout>
@@ -140,19 +141,19 @@ export default function App() {
     switch (activeTab) {
       case 'dashboard':
         return <Dashboard onAddVisitor={handleTriggerAddVisitor} />;
-      
+
       // Visitor Routes
       case 'visitors-list':
         return (
-          <VisitorManagement 
-            onNavigate={(tab) => setActiveTab(tab)} 
+          <VisitorManagement
+            onNavigate={(tab) => setActiveTab(tab)}
             shouldOpenModal={shouldOpenAddVisitorModal}
             onModalOpenHandled={() => setShouldOpenAddVisitorModal(false)}
           />
         );
       case 'visitor-details':
         return <VisitorDetails />;
-      
+
       // Staff Routes
       case 'staff-list':
         return <Teams />;
@@ -171,13 +172,13 @@ export default function App() {
       // Pre-registrations
       case 'pre-registrations':
         return <PreRegistrations />;
-        
+
       // Reports
       case 'reports-visitor':
         return <VisitorReports />;
       case 'reports-delivery':
         return <DeliveryReports />;
-        
+
       // Kiosk Admin Routes
       case 'kiosk-checkin-options':
         return <CheckInOptions />;
@@ -193,7 +194,7 @@ export default function App() {
         return <NotificationSettings />;
       case 'settings-flow':
         return <VisitorFlowSettings />;
-      
+
       default:
         return <PlaceholderPage title={activeTab.replace(/-/g, ' ')} />;
     }
@@ -203,7 +204,7 @@ export default function App() {
     switch (activeTab) {
       case 'reception-dashboard':
         return (
-          <ReceptionDashboard 
+          <ReceptionDashboard
             onAddVisitor={handleTriggerAddVisitor}
             onLogDelivery={() => setActiveTab('reception-deliveries-all')}
             onViewKiosk={() => setActiveTab('reception-kiosk-status')}
@@ -211,37 +212,37 @@ export default function App() {
             onViewAllDeliveries={() => setActiveTab('reception-deliveries-all')}
           />
         );
-      
+
       // Visitor Routes
       case 'reception-visitors-all':
         return (
-            <VisitorManagement 
-                title="All Visitors"
-                initialFilter="All"
-                onNavigate={(tab) => setActiveTab(tab === 'visitor-details' ? 'reception-visitor-details' : tab)}
-                shouldOpenModal={shouldOpenAddVisitorModal}
-                onModalOpenHandled={() => setShouldOpenAddVisitorModal(false)}
-            />
+          <VisitorManagement
+            title="All Visitors"
+            initialFilter="All"
+            onNavigate={(tab) => setActiveTab(tab === 'visitor-details' ? 'reception-visitor-details' : tab)}
+            shouldOpenModal={shouldOpenAddVisitorModal}
+            onModalOpenHandled={() => setShouldOpenAddVisitorModal(false)}
+          />
         );
       case 'reception-visitors-today':
         return (
-             <VisitorManagement 
-                title="Today's Visitors"
-                initialFilter="All" 
-                // In a real app, we would pass a date filter here. For now we use the title to imply context.
-                onNavigate={(tab) => setActiveTab(tab === 'visitor-details' ? 'reception-visitor-details' : tab)}
-            />
+          <VisitorManagement
+            title="Today's Visitors"
+            initialFilter="All"
+            // In a real app, we would pass a date filter here. For now we use the title to imply context.
+            onNavigate={(tab) => setActiveTab(tab === 'visitor-details' ? 'reception-visitor-details' : tab)}
+          />
         );
       case 'reception-visitors-active':
         return (
-             <VisitorManagement 
-                title="Active Visitors (In Building)"
-                initialFilter="On-site"
-                onNavigate={(tab) => setActiveTab(tab === 'visitor-details' ? 'reception-visitor-details' : tab)}
-            />
+          <VisitorManagement
+            title="Active Visitors (In Building)"
+            initialFilter="On-site"
+            onNavigate={(tab) => setActiveTab(tab === 'visitor-details' ? 'reception-visitor-details' : tab)}
+          />
         );
       case 'reception-visitor-details':
-         return <VisitorDetails />;
+        return <VisitorDetails />;
 
       // Delivery Routes
       case 'reception-deliveries-all':
@@ -268,7 +269,7 @@ export default function App() {
         return <DeliveryReports variant="receptionist" />;
       case 'reception-profile':
         return <ReceptionProfile />;
-      
+
       default:
         return <PlaceholderPage title={activeTab.replace(/-/g, ' ')} />;
     }
@@ -286,6 +287,8 @@ export default function App() {
         return <StaffPreRegistrations />;
       case 'staff-settings':
         return <StaffSettings />;
+      case 'staff-profile':
+        return <StaffProfile />;
       default:
         return <PlaceholderPage title={activeTab.replace(/-/g, ' ')} />;
     }
@@ -297,8 +300,8 @@ export default function App() {
 
   if (portalMode === 'staff') {
     return (
-      <StaffLayout 
-        activeTab={activeTab} 
+      <StaffLayout
+        activeTab={activeTab}
         setActiveTab={handleNavigation}
         isMobileOpen={isMobileOpen}
         setIsMobileOpen={setIsMobileOpen}
@@ -306,7 +309,7 @@ export default function App() {
         title={activeTab.replace('staff-', '').replace(/-/g, ' ')}
       >
         {renderStaffContent()}
-        <FloatingActions 
+        <FloatingActions
           activeDrawer={activeDrawer}
           onSetActiveDrawer={setActiveDrawer}
         />
@@ -317,9 +320,9 @@ export default function App() {
   // Admin & Receptionist Layout
   return (
     <div className="flex h-screen bg-background overflow-hidden font-sans">
-      <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={handleNavigation} 
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={handleNavigation}
         isMobileOpen={isMobileOpen}
         setIsMobileOpen={setIsMobileOpen}
         onLogout={handleLogout}
@@ -330,53 +333,53 @@ export default function App() {
         {/* Top Header */}
         <header className="bg-background/80 backdrop-blur-md sticky top-0 z-30 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center">
-             <button 
-               className="mr-4 lg:hidden p-2 text-secondary hover:bg-gray-200 rounded-lg"
-               onClick={() => setIsMobileOpen(true)}
-             >
-               <Menu className="w-6 h-6" />
-             </button>
-             
-             {/* Breadcrumb-ish title */}
-             <div className="hidden md:flex items-center text-sm">
-                <span className="text-gray-400">{portalMode === 'receptionist' ? 'Front Desk' : 'Admin Portal'}</span>
-                <span className="mx-2 text-gray-300">/</span>
-                <span className="font-semibold text-secondary capitalize">{activeTab.replace('reception-', '').replace(/-/g, ' ')}</span>
-             </div>
+            <button
+              className="mr-4 lg:hidden p-2 text-secondary hover:bg-gray-200 rounded-lg"
+              onClick={() => setIsMobileOpen(true)}
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+
+            {/* Breadcrumb-ish title */}
+            <div className="hidden md:flex items-center text-sm">
+              <span className="text-gray-400">{portalMode === 'receptionist' ? 'Front Desk' : 'Admin Portal'}</span>
+              <span className="mx-2 text-gray-300">/</span>
+              <span className="font-semibold text-secondary capitalize">{activeTab.replace('reception-', '').replace(/-/g, ' ')}</span>
+            </div>
           </div>
 
           <div className="flex items-center space-x-4">
-             {/* Search Bar */}
-             <div className="hidden md:flex items-center bg-white px-3 py-2 rounded-xl border border-transparent focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all shadow-sm">
-               <Search className="w-4 h-4 text-gray-400 mr-2" />
-               <input 
-                 type="text" 
-                 placeholder="Search..." 
-                 className="bg-transparent border-none focus:outline-none text-sm w-48 text-secondary placeholder-gray-400" 
-               />
-               <span className="text-xs text-gray-400 border border-gray-200 rounded px-1.5 py-0.5 ml-2">⌘K</span>
-             </div>
+            {/* Search Bar */}
+            <div className="hidden md:flex items-center bg-white px-3 py-2 rounded-xl border border-transparent focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all shadow-sm">
+              <Search className="w-4 h-4 text-gray-400 mr-2" />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="bg-transparent border-none focus:outline-none text-sm w-48 text-secondary placeholder-gray-400"
+              />
+              <span className="text-xs text-gray-400 border border-gray-200 rounded px-1.5 py-0.5 ml-2">⌘K</span>
+            </div>
 
-             {/* Floating Actions on Mobile/Tablet */}
-             <div className="lg:hidden">
-               <FloatingActions 
-                 variant="header" 
-                 activeDrawer={activeDrawer}
-                 onSetActiveDrawer={setActiveDrawer}
-               />
-             </div>
+            {/* Floating Actions on Mobile/Tablet */}
+            <div className="lg:hidden">
+              <FloatingActions
+                variant="header"
+                activeDrawer={activeDrawer}
+                onSetActiveDrawer={setActiveDrawer}
+              />
+            </div>
           </div>
         </header>
 
         {/* Main Scroll Area */}
         <main className="flex-1 overflow-y-auto p-6 md:p-8">
-           <div className="max-w-7xl mx-auto">
-              {portalMode === 'receptionist' ? renderReceptionistContent() : renderAdminContent()}
-           </div>
+          <div className="max-w-7xl mx-auto">
+            {portalMode === 'receptionist' ? renderReceptionistContent() : renderAdminContent()}
+          </div>
         </main>
 
         {/* Floating Actions Overlay */}
-        <FloatingActions 
+        <FloatingActions
           activeDrawer={activeDrawer}
           onSetActiveDrawer={setActiveDrawer}
         />
