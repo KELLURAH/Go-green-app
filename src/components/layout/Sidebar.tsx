@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  LayoutDashboard, Users, UserCheck, Package, 
+import {
+  LayoutDashboard, Users, UserCheck, Package,
   FileText, Settings, LogOut, ChevronDown, ChevronRight,
   ClipboardList, ExternalLink, Monitor, UserCircle, Bell, User
 } from 'lucide-react';
@@ -12,14 +12,14 @@ interface SidebarProps {
   isMobileOpen: boolean;
   setIsMobileOpen: (open: boolean) => void;
   onLogout: () => void;
-  variant?: 'admin' | 'staff' | 'receptionist';
+  variant?: 'admin' | 'staff' | 'receptionist' | 'super-admin';
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ 
-  activeTab, 
-  setActiveTab, 
-  isMobileOpen, 
-  setIsMobileOpen, 
+export const Sidebar: React.FC<SidebarProps> = ({
+  activeTab,
+  setActiveTab,
+  isMobileOpen,
+  setIsMobileOpen,
   onLogout,
   variant = 'admin'
 }) => {
@@ -27,27 +27,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navItems = useMemo(() => {
     const adminItems: NavItem[] = [
       { label: 'Dashboard', icon: LayoutDashboard, id: 'dashboard' },
-      { 
-        label: 'Visitors', 
-        icon: UserCheck, 
+      {
+        label: 'Visitors',
+        icon: UserCheck,
         id: 'visitors',
         subItems: [
           { label: 'Visitors List', id: 'visitors-list' },
           { label: 'Visitor Details', id: 'visitor-details' }
         ]
       },
-      { 
-        label: 'Deliveries', 
-        icon: Package, 
+      {
+        label: 'Deliveries',
+        icon: Package,
         id: 'deliveries',
         subItems: [
           { label: 'Deliveries List', id: 'deliveries-list' },
           { label: 'Delivery Details', id: 'delivery-details' }
         ]
       },
-      { 
-        label: 'Staff Directory', 
-        icon: Users, 
+      {
+        label: 'Staff Directory',
+        icon: Users,
         id: 'staff',
         subItems: [
           { label: 'Staff List', id: 'staff-list' },
@@ -55,9 +55,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ]
       },
       { label: 'Pre-registrations', icon: ClipboardList, id: 'pre-registrations' },
-      { 
-        label: 'Reports', 
-        icon: FileText, 
+      {
+        label: 'Reports',
+        icon: FileText,
         id: 'reports',
         subItems: [
           { label: 'Visitor Reports', id: 'reports-visitor' },
@@ -73,9 +73,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           { label: 'Kiosk Settings', id: 'settings-kiosk' }
         ]
       },
-      { 
-        label: 'Settings', 
-        icon: Settings, 
+      {
+        label: 'Settings',
+        icon: Settings,
         id: 'settings',
         subItems: [
           { label: 'Company Profile', id: 'settings-profile' },
@@ -114,9 +114,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
     const receptionistItems: NavItem[] = [
       { label: 'Dashboard', icon: LayoutDashboard, id: 'reception-dashboard' },
-      { 
-        label: 'Visitors', 
-        icon: UserCheck, 
+      {
+        label: 'Visitors',
+        icon: UserCheck,
         id: 'reception-visitors',
         subItems: [
           { label: 'All Visitors', id: 'reception-visitors-all' },
@@ -124,9 +124,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           { label: 'Active (In Building)', id: 'reception-visitors-active' },
         ]
       },
-      { 
-        label: 'Deliveries', 
-        icon: Package, 
+      {
+        label: 'Deliveries',
+        icon: Package,
         id: 'reception-deliveries',
         subItems: [
           { label: 'All Deliveries', id: 'reception-deliveries-all' },
@@ -165,8 +165,87 @@ export const Sidebar: React.FC<SidebarProps> = ({
       }
     ];
 
+    const superAdminItems: NavItem[] = [
+      { label: 'Overview', icon: LayoutDashboard, id: 'super-admin-overview' },
+      {
+        label: 'Tenants',
+        icon: Users,
+        id: 'super-admin-tenants',
+        subItems: [
+          { label: 'All Tenants', id: 'super-admin-tenants-all' },
+          { label: 'Tenant Details', id: 'super-admin-tenants-details' },
+          { label: 'Trials & Invitations', id: 'super-admin-tenants-trials' },
+        ]
+      },
+      {
+        label: 'Usage & Analytics',
+        icon: ClipboardList, // Using ClipboardList as a proxy for generic Analytics
+        id: 'super-admin-usage',
+        subItems: [
+          { label: 'Usage Dashboard', id: 'super-admin-usage-dashboard' },
+          { label: 'Feature Adoption', id: 'super-admin-usage-adoption' },
+          { label: 'Activity Reports', id: 'super-admin-usage-reports' },
+        ]
+      },
+      {
+        label: 'Billing & Revenue',
+        icon: FileText, // Using FileText for Billing/Invoices type items
+        id: 'super-admin-billing',
+        subItems: [
+          { label: 'Revenue Dashboard', id: 'super-admin-billing-revenue' },
+          { label: 'Subscriptions', id: 'super-admin-billing-subscriptions' },
+          { label: 'Invoices & Payments', id: 'super-admin-billing-invoices' },
+          { label: 'Plans & Pricing', id: 'super-admin-billing-pricing' },
+        ]
+      },
+      {
+        label: 'Security',
+        icon: UserCheck, // Using UserCheck or similar for security/compliance
+        id: 'super-admin-security',
+        subItems: [
+          { label: 'Global Audit Logs', id: 'super-admin-security-audit' },
+          { label: 'Login & Sessions', id: 'super-admin-security-sessions' },
+          { label: 'Access Control', id: 'super-admin-security-access' },
+          { label: 'Data & Retention', id: 'super-admin-security-data' },
+        ]
+      },
+      {
+        label: 'System Health',
+        icon: Monitor,
+        id: 'super-admin-health',
+        subItems: [
+          { label: 'System Status', id: 'super-admin-health-status' },
+          { label: 'Background Jobs', id: 'super-admin-health-jobs' },
+          { label: 'Integrations Health', id: 'super-admin-health-integrations' },
+          { label: 'Error Logs', id: 'super-admin-health-logs' },
+          { label: 'Feature Flags', id: 'super-admin-health-flags' },
+          { label: 'Maintenance', id: 'super-admin-health-maintenance' },
+        ]
+      },
+      {
+        label: 'Support & Tools',
+        icon: Settings, // Generic tools
+        id: 'super-admin-support',
+        subItems: [
+          { label: 'Support Inbox', id: 'super-admin-support-inbox' },
+          { label: 'Impersonate Tenant', id: 'super-admin-support-impersonate' },
+          { label: 'Admin Tools', id: 'super-admin-support-tools' },
+        ]
+      },
+      {
+        label: 'Account',
+        icon: UserCircle,
+        id: 'super-admin-account',
+        subItems: [
+          { label: 'Profile', id: 'super-admin-account-profile' },
+          { label: 'Preferences', id: 'super-admin-account-preferences' },
+        ]
+      }
+    ];
+
     if (variant === 'staff') return staffItems;
     if (variant === 'receptionist') return receptionistItems;
+    if (variant === 'super-admin') return superAdminItems;
     return adminItems;
   }, [variant]);
 
@@ -222,7 +301,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <>
       {/* Mobile Overlay */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-black/50 lg:hidden backdrop-blur-sm transition-opacity"
           onClick={() => setIsMobileOpen(false)}
         />
@@ -231,7 +310,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <aside className={`
         sidebar
         fixed lg:static inset-y-0 left-0 z-50
-        w-64 bg-secondary text-gray-300 flex flex-col transition-all duration-300 ease-in-out
+        w-64 ${variant === 'super-admin' ? 'bg-[#1e2025]' : 'bg-secondary'} text-gray-300 flex flex-col transition-all duration-300 ease-in-out
         ${isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}
         h-full lg:h-[calc(100vh-2rem)]
         lg:my-4 lg:ml-4 lg:rounded-[2rem]
@@ -243,7 +322,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-white/10 shrink-0">
               {/* GO-GREEN Icon */}
               <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-[#4CAF50]" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                 <path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.33-6 4Z" />
+                <path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.33-6 4Z" />
               </svg>
             </div>
             <div className="flex flex-col">
@@ -261,7 +340,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             const isActive = activeTab === item.id;
             const isExpanded = expandedItems.has(item.id);
             const isChildActive = item.subItems?.some(sub => sub.id === activeTab);
-            
+
             return (
               <div key={item.id} className="mb-1">
                 <button
@@ -269,7 +348,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   className={`
                     w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-200 group
                     ${isActive || isChildActive
-                      ? 'bg-white/10 text-white font-medium' 
+                      ? 'bg-white/10 text-white font-medium'
                       : 'hover:bg-white/5 hover:text-white'}
                   `}
                 >
@@ -311,18 +390,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Footer */}
         <div className="p-4 mt-auto space-y-4">
           {(variant === 'admin' || variant === 'receptionist') && (
-            <button 
-               onClick={() => setActiveTab('kiosk-mode')}
-               className="w-full bg-[#C8A45E] hover:bg-[#B08D4B] text-[#2E3340] font-bold py-3 px-4 rounded-xl flex items-center justify-center transition-colors shadow-lg"
+            <button
+              onClick={() => setActiveTab('kiosk-mode')}
+              className="w-full bg-[#C8A45E] hover:bg-[#B08D4B] text-[#2E3340] font-bold py-3 px-4 rounded-xl flex items-center justify-center transition-colors shadow-lg"
             >
-               <ExternalLink className="w-4 h-4 mr-2" /> Launch Kiosk
+              <ExternalLink className="w-4 h-4 mr-2" /> Launch Kiosk
             </button>
           )}
 
           <div className="bg-[#1E212B] rounded-2xl p-4 flex items-center space-x-3 border border-white/5 shadow-lg">
-            <img 
-              src="https://ui-avatars.com/api/?name=Mr+Martin&background=0D8ABC&color=fff" 
-              alt="Profile" 
+            <img
+              src="https://ui-avatars.com/api/?name=Mr+Martin&background=0D8ABC&color=fff"
+              alt="Profile"
               className="w-10 h-10 rounded-full border-2 border-primary"
             />
             <div className="flex-1 min-w-0">
@@ -336,15 +415,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Settings className="w-5 h-5" />
             </button>
           </div>
-          
+
           <div className="flex items-center justify-between px-2 text-xs text-gray-500 font-medium">
-             <span>v2.0.5</span>
-             <button 
-               onClick={onLogout}
-               className="flex items-center hover:text-white transition-colors"
-             >
-               <LogOut className="w-3 h-3 mr-1" /> Logout
-             </button>
+            <span>v2.0.5</span>
+            <button
+              onClick={onLogout}
+              className="flex items-center hover:text-white transition-colors"
+            >
+              <LogOut className="w-3 h-3 mr-1" /> Logout
+            </button>
           </div>
         </div>
       </aside>
